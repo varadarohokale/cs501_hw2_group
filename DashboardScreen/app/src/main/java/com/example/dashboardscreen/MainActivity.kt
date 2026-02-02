@@ -68,85 +68,79 @@ fun DashboardScreen(modifier: Modifier = Modifier){
             fontWeight = FontWeight.Bold,
         )
 
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ){
-                // toggle row stays inside the card
-                // row arranges the label and switch horizontally
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    // label describing the switch
-                    Text(
-                        text = "Toggle",
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontSize = 16.sp,
-                    )
-
-                    // this switch allows the user to change isEnabled
-                    // so when toggled, it updates state
-                    Switch(
-                        checked = isEnabled,
-                        onCheckedChange = { newValue ->
-
-                            // Update boolean state and UI updates automatically
-                            isEnabled = newValue
-                        }
-                    )
-                }
-                Divider()
-                // dynamic text that changes based on the state of isEnabled
-                    // and demonstrates automatic recomposition
-                Text(
-                    text = if (isEnabled) "ON" else "OFF",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-
-                // dynamic text that updates whenever clickCount changes
-                Text(
-                    text = "Total clicks: $clickCount",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                            style = MaterialTheme.typography.bodyLarge,
-
-                )
-
+        CustomCard(
+            isEnabled = isEnabled,
+            count = clickCount,
+            onToggleChange = { newValue ->
+                isEnabled = newValue
             }
-        }
-        // Button that increments the click counter
+        )
+
         Button(
-            onClick = {
-                // Compose automatically updates the number
-                clickCount++
-            },
-            modifier = Modifier.fillMaxWidth().height(56.dp)
-        ){
-            Text(
-                text = "Click me",
-                fontSize = 18.sp
-            )
+            onClick = { clickCount++ },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+        ) {
+            Text(text = "Click me", fontSize = 18.sp)
         }
+
+
 
     }
 }
 
 @Composable
-fun CustomCard( isEnabled:Boolean, count: Int){
-    // T0 DO
+fun CustomCard(
+    isEnabled: Boolean,
+    count: Int,
+    onToggleChange: (Boolean) -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
 
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Toggle",
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontSize = 16.sp
+                )
+                Switch(
+                    checked = isEnabled,
+                    onCheckedChange = onToggleChange
+                )
+            }
+
+            Divider()
+
+            Text(
+                text = if (isEnabled) "ON" else "OFF",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            Text(
+                text = "Total clicks: $count",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+    }
 }
+
 
 
