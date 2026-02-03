@@ -142,5 +142,16 @@ fun CustomCard(
     }
 }
 
+// preview was extremely large so i tried to manually set the dimensions
+// but there is a zoom in & zoom out buttons so I set that to 100% and it looked good
+@Preview(
+    showBackground = true
+)
+@Composable
+fun DashboardScreenPreview() {
+    DashboardScreenTheme {
+        DashboardScreen()
+    }
+}
 
 
